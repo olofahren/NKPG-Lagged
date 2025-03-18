@@ -54,6 +54,18 @@ function listenForAreas(callback: (areas: any[]) => void) {
     });
 }
 
+function listenForEvents(callback: (events: any[]) => void) {
+    const eventsRef = ref(database, "events");
+    onValue(eventsRef, (snapshot) => {
+        const eventsData = snapshot.val();
+        const eventsArray = eventsData ? Object.keys(eventsData).map(key => ({
+            id: key,
+            ...eventsData[key]
+        })) : [];
+        callback(eventsArray);
+    });
+}
+
 /**
  * Retrieves all teams from the Realtime Database
  * @returns {Promise<Array>} Array of team objects
@@ -108,6 +120,31 @@ async function getAreas() {
 
     } catch (error) {
         console.error("Error retrieving areas:", error);
+        throw error;
+    }
+}
+
+async function getEvents() {
+    try {
+        const eventsRef = ref(database, "events");
+        const snapshot = await get(eventsRef);
+
+        if (!snapshot.exists()) {
+            console.log("No areas data available");
+            return [];
+        }
+
+        const eventsData = snapshot.val();
+        const eventsArray = Object.keys(eventsData).map(key => ({
+            id: key,
+            ...eventsData[key]
+        }));
+
+        console.log(`Successfully retrieved ${eventsArray.length} events`);
+        return eventsArray;
+
+    } catch (error) {
+        console.error("Error retrieving events:", error);
         throw error;
     }
 }
@@ -185,4 +222,42 @@ async function claimArea(teamName: string, area: string) {
     }
 }
 
-export { database, auth, getTeams, addTeam, deleteTeam, claimArea, getAreas, addArea, listenForTeams, listenForAreas };
+async function setEventTimes(eventName: string, startTime: string, endTime: string) {
+    try {
+        const eventRef = ref(database, `events/${eventName}`);
+        await update(eventRef, {
+            name: eventName,
+            startTime: startTime,
+            endTime: endTime
+        });
+
+        console.log(`Successfully set event times for ${eventName}`);
+
+    } catch (error) {
+        console.error("Error setting event times:", error);
+        throw error;
+    }
+
+}
+
+async function getEventTimes(eventName: string) {
+    try {
+        const eventRef = ref(database, `events/${eventName}`);
+        const snapshot = await get(eventRef);
+
+        if (!snapshot.exists()) {
+            console.log(`No event times available for ${eventName}`);
+            return {};
+        }
+
+        const eventData = snapshot.val();
+        console.log(`Successfully retrieved event times for ${eventName}`);
+        return eventData;
+
+    } catch (error) {
+        console.error("Error retrieving event times:", error);
+        throw error;
+    }
+}
+
+export { database, auth, getTeams, addTeam, deleteTeam, claimArea, getAreas, addArea, listenForTeams, listenForAreas, setEventTimes, getEventTimes, getEvents, listenForEvents };

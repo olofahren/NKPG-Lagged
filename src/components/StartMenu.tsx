@@ -45,13 +45,14 @@ interface StartMenuProps {
     teamName: string;
     setTeamName: any;
     events: any[];
+    selectedEvent: string;
+    setSelectedEvent: any;
 }
 
 export default function StartMenu(props: StartMenuProps) {
     const [newTeam, setNewTeam] = useState<string>("");
     const [newTeamColor, setNewTeamColor] = useState<string>("");
     const [settingMode, setSettingMode] = useState<string>("default");
-    const [selectedEvent, setSelectedEvent] = useState<string>("");
     //get the date and time from the selected event
     const [eventStartDate, setEventStartDate] = useState<Date>();
     const [eventEndDate, setEventEndDate] = useState<Date>();
@@ -64,14 +65,14 @@ export default function StartMenu(props: StartMenuProps) {
 
     // get the date and time from the selected event
     useEffect(() => {
-        if (selectedEvent !== "") {
-            const event = props.events.find((event: { name: string; }) => event.name === selectedEvent);
+        if (props.selectedEvent !== "") {
+            const event = props.events.find((event: { name: string; }) => event.name === props.selectedEvent);
             if (event) {
                 setEventStartDate(new Date(event.startTime));
                 setEventEndDate(new Date(event.endTime));
             }
         }
-    }, [selectedEvent]);
+    }, [props.selectedEvent]);
 
 
     const setDefaultTeamLocalStorage = (teamName: string) => {
@@ -100,7 +101,7 @@ export default function StartMenu(props: StartMenuProps) {
                 <div className="flex flex-row">
                     {settingMode === "default" &&
                         <div>
-                            <p className="font-bold">Select team</p>
+                            <p className="font-bold">Select your team</p>
                             <Select value={props.teamName} onValueChange={(value) => (setDefaultTeamLocalStorage(value))}>
                                 <SelectTrigger className="w-[180px]">
                                     <SelectValue placeholder="Select team" />
@@ -159,7 +160,7 @@ export default function StartMenu(props: StartMenuProps) {
                     {settingMode === "event" &&
                         <div>
                             <p className="font-bold">Event options</p>
-                            <Select defaultValue={defaultEventView} onValueChange={(value) => setSelectedEvent(value)}>
+                            <Select defaultValue={defaultEventView} onValueChange={(value) => props.setSelectedEvent(value)}>
                                 <SelectTrigger className="w-[180px]">
                                     <SelectValue placeholder="Select options to edit" />
                                 </SelectTrigger>
@@ -170,7 +171,7 @@ export default function StartMenu(props: StartMenuProps) {
                                 </SelectContent>
                             </Select>
 
-                            {selectedEvent != "" && <div>
+                            {props.selectedEvent != "" && <div>
                                 <div className="flex flex-row">
                                     <div>
                                         <label className="text-xs">Start time:</label>
@@ -183,7 +184,7 @@ export default function StartMenu(props: StartMenuProps) {
                                         <DateTimePicker24h date={eventEndDate} setDate={setEventEndDate} />
                                     </div>
                                 </div>
-                                <Button className="w-full mt-4" onClick={() => setEventTimes(selectedEvent, eventStartDate?.toISOString() || "", eventEndDate?.toISOString() || "")}>Save</Button>
+                                <Button className="w-full mt-4" onClick={() => setEventTimes(props.selectedEvent, eventStartDate?.toISOString() || "", eventEndDate?.toISOString() || "")}>Save</Button>
                             </div>}
                         </div>
 

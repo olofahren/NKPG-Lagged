@@ -30,6 +30,8 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import DateTimePicker24h from "@/components/DateTimePicker";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
 
 interface Team {
     id: string;
@@ -53,7 +55,12 @@ export default function StartMenu(props: StartMenuProps) {
     //get the date and time from the selected event
     const [eventStartDate, setEventStartDate] = useState<Date>();
     const [eventEndDate, setEventEndDate] = useState<Date>();
+    const [defaultEventView, setDefaultEventView] = useState<string>("");
 
+
+    useEffect(() => {
+        setDefaultEventView(props.events[0]?.name);
+    }, [props.events]);
 
     // get the date and time from the selected event
     useEffect(() => {
@@ -77,20 +84,17 @@ export default function StartMenu(props: StartMenuProps) {
             <DialogTrigger>
                 <FontAwesomeIcon size="2xl" icon={faBars} />
             </DialogTrigger>
-            <DialogContent className="flex flex-col items-center z-50" aria-describedby="dialog-description">
+            <DialogContent className="flex flex-col items-center z-50 h-1/2" aria-describedby="dialog-description">
                 <DialogHeader>
                     <DialogTitle>Game options</DialogTitle>
-                    <Select onValueChange={(value) => setSettingMode(value)} defaultValue="default">
-                        <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Select options to edit" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="default">Player options</SelectItem>
-                            <SelectItem value="teams">Manage teams</SelectItem>
-                            <SelectItem value="add-team">Add teams</SelectItem>
-                            <SelectItem value="event">Manage event</SelectItem>
-                        </SelectContent>
-                    </Select>
+                    <Tabs onValueChange={(value) => setSettingMode(value)} defaultValue="default">
+                        <TabsList>
+                            <TabsTrigger value="default">Player options</TabsTrigger>
+                            <TabsTrigger value="teams">Teams</TabsTrigger>
+                            <TabsTrigger value="add-team">Add teams</TabsTrigger>
+                            <TabsTrigger value="event">Event</TabsTrigger>
+                        </TabsList>
+                    </Tabs>
                 </DialogHeader>
 
                 <div className="flex flex-row">
@@ -148,18 +152,18 @@ export default function StartMenu(props: StartMenuProps) {
                             <label className="text-xs">Team name:</label>
                             <Input type="text" onChange={(e) => (setNewTeam(e.target.value))} />
                             <label className="text-xs">Team color:</label>
-                            <Input type="color" onChange={(e) => setNewTeamColor(e.target.value)} />
-                            <Button className="border-2" onClick={() => ((newTeam && newTeam !== "") ? addTeam(newTeam, newTeamColor) : null)}>Add</Button>
+                            <Input className="w-full" type="color" onChange={(e) => setNewTeamColor(e.target.value)} />
+                            <Button className="border-2 w-full mt-4" onClick={() => ((newTeam && newTeam !== "") ? addTeam(newTeam, newTeamColor) : null)}>Add</Button>
                         </div>
                     }
                     {settingMode === "event" &&
                         <div>
                             <p className="font-bold">Event options</p>
-                            <Select onValueChange={(value) => setSelectedEvent(value)}>
+                            <Select defaultValue={defaultEventView} onValueChange={(value) => setSelectedEvent(value)}>
                                 <SelectTrigger className="w-[180px]">
                                     <SelectValue placeholder="Select options to edit" />
                                 </SelectTrigger>
-                                <SelectContent defaultValue={props.events && props.events[0]}>
+                                <SelectContent defaultValue={defaultEventView}>
                                     {props.events.map((team: { id: string; name: string; }) => (
                                         <SelectItem key={team.id} value={team.name}>{team.name}</SelectItem>
                                     ))}

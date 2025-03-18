@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -30,7 +29,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import DateTimePicker24h from "@/components/DateTimePicker";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 
 interface Team {

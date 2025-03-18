@@ -1,9 +1,8 @@
 'use client';
 import { useEffect, useState } from "react";
-import { MapContainer, Marker, Polygon, Popup, TileLayer, Tooltip } from "react-leaflet";
-import { addTeam, claimArea, deleteTeam, listenForAreas, listenForTeams } from "../app/utils/firebase";
+import { MapContainer, Marker, Polygon, Popup, TileLayer } from "react-leaflet";
+import { claimArea } from "../app/utils/firebase";
 import areaGeoData from "@/../public/areas.json";
-import StartMenu from "./StartMenu";
 
 interface MyMapProps {
     teamName: string;

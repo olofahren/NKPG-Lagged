@@ -24,7 +24,8 @@ export default function DateTimePicker24h({ date, setDate }: DateTimePicker24hPr
     const [isOpen, setIsOpen] = React.useState(false);
 
     const hours = Array.from({ length: 24 }, (_, i) => i);
-    const handleDateSelect = (selectedDate: Date | undefined) => {
+
+    const handleDateSelect = React.useCallback((selectedDate: Date | undefined) => {
         if (selectedDate) {
             // Preserve the time when selecting a new date
             if (date) {
@@ -32,12 +33,12 @@ export default function DateTimePicker24h({ date, setDate }: DateTimePicker24hPr
             }
             setDate(selectedDate);
         }
-    };
+    }, [date, setDate]);
 
     React.useEffect(() => {
         console.log("Date changed:", date);
         handleDateSelect(date);
-    }, [date]);
+    }, [date, handleDateSelect]);
 
     const handleTimeChange = (
         type: "hour" | "minute",

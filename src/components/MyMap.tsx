@@ -16,18 +16,6 @@ interface MyMapProps {
 export default function MyMap(props: MyMapProps) {
     const startPos: [number, number] = [58.584944, 16.190009];
     const [location, setLocation] = useState<{ latitude: number, longitude: number } | undefined>(undefined);
-    const [teamPositions, setTeamPositions] = useState<{ [key: string]: { latitude: number, longitude: number } }>({});
-
-    useEffect(() => {
-        // Set the team positions of all teams in the teamPositions state from teams prop
-        const teamPositions: { [key: string]: { latitude: number, longitude: number } } = {};
-        props.teams.forEach((team: { name: string, teamPosition: { latitude: number, longitude: number } }) => {
-            if (team.teamPosition) {
-                teamPositions[team.name] = team.teamPosition;
-            }
-        });
-        setTeamPositions(teamPositions);
-    }, [props.teams]);
 
     // Fetch location every 10 seconds
     useEffect(() => {

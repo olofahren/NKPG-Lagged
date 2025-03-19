@@ -21,6 +21,7 @@ export default function MyMap(props: MyMapProps) {
                 navigator.geolocation.getCurrentPosition(({ coords }) => {
                     const { latitude, longitude } = coords;
                     setLocation({ latitude, longitude });
+                    // setLocation({ latitude: 58.588635, longitude: 16.178076 });
                     toast("Location updated", {
                         description: `Latitude: ${latitude}, Longitude: ${longitude}`,
                     });
@@ -36,6 +37,9 @@ export default function MyMap(props: MyMapProps) {
         const area = areaGeoData.find((area: { name: string }) => area.name === areaName);
         if (props.teamName && location && area && checkCoordinateInAreas([location.latitude, location.longitude], [{ ...area, coordinates: area.coordinates as [number, number][] }]).isInside) {
             claimArea(props.teamName, areaName);
+            toast("Claimed area!", {
+                description: `You have claimed ${areaName} for ${props.teamName}`,
+            })
         } else {
             toast("Failed to claim area", {
                 description: "You are not in the area you are trying to claim.",

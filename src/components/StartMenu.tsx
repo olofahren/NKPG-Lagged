@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/table"
 import DateTimePicker24h from "@/components/DateTimePicker";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
+import { toast } from "sonner";
 
 interface Team {
     id: string;
@@ -57,7 +57,6 @@ export default function StartMenu(props: StartMenuProps) {
     const [eventEndDate, setEventEndDate] = useState<Date>();
     const [defaultEventView, setDefaultEventView] = useState<string>("");
 
-
     useEffect(() => {
         setDefaultEventView(props.events[0]?.name);
     }, [props.events]);
@@ -71,12 +70,35 @@ export default function StartMenu(props: StartMenuProps) {
                 setEventEndDate(new Date(event.endTime));
             }
         }
-    }, [props.selectedEvent]);
-
+    }, [props.selectedEvent, props.events]);
 
     const setDefaultTeamLocalStorage = (teamName: string) => {
         localStorage.setItem("selectedTeam", teamName);
         props.setTeamName(teamName);
+        toast.success(`You are now in team ${teamName}!`);
+    }
+
+    const handleAddTeam = () => {
+        if (newTeam && newTeam !== "") {
+            addTeam(newTeam, newTeamColor);
+            toast.success(`Team ${newTeam} added`);
+        } else {
+            toast.error("Please enter a team name");
+        }
+    }
+
+    const handleDeleteTeam = (teamName: string) => {
+        if (props.teamName) {
+            deleteTeam(teamName);
+            toast.success(`Team ${teamName} deleted`);
+        } else {
+            toast.error("Please select a team first");
+        }
+    }
+
+    const handleSaveEventTimes = () => {
+        setEventTimes(props.selectedEvent, eventStartDate?.toISOString() || "", eventEndDate?.toISOString() || "");
+        toast.success("Event times saved");
     }
 
     return (
@@ -136,7 +158,7 @@ export default function StartMenu(props: StartMenuProps) {
                                                 <div className="w-6 h-6 rounded-full" style={{ backgroundColor: team.teamColor }}></div>
                                             </TableCell>
                                             <TableCell>
-                                                <Button variant={"destructive"} onClick={() => (props.teamName ? deleteTeam(team.name) : null)}>DELETE</Button>
+                                                <Button variant={"destructive"} onClick={() => handleDeleteTeam(team.name)}>DELETE</Button>
                                             </TableCell>
 
                                         </TableRow>
@@ -153,7 +175,7 @@ export default function StartMenu(props: StartMenuProps) {
                             <Input type="text" onChange={(e) => (setNewTeam(e.target.value))} />
                             <label className="text-xs">Team color:</label>
                             <Input className="w-full" type="color" onChange={(e) => setNewTeamColor(e.target.value)} />
-                            <Button className="border-2 w-full mt-4" onClick={() => ((newTeam && newTeam !== "") ? addTeam(newTeam, newTeamColor) : null)}>Add</Button>
+                            <Button className="border-2 w-full mt-4" onClick={handleAddTeam}>Add</Button>
                         </div>
                     }
                     {settingMode === "event" &&
@@ -183,11 +205,9 @@ export default function StartMenu(props: StartMenuProps) {
                                         <DateTimePicker24h date={eventEndDate} setDate={setEventEndDate} />
                                     </div>
                                 </div>
-                                <Button className="w-full mt-4" onClick={() => setEventTimes(props.selectedEvent, eventStartDate?.toISOString() || "", eventEndDate?.toISOString() || "")}>Save</Button>
+                                <Button className="w-full mt-4" onClick={handleSaveEventTimes}>Save</Button>
                             </div>}
                         </div>
-
-
                     }
                 </div>
             </DialogContent>

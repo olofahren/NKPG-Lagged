@@ -114,8 +114,8 @@ export default function StartMenu(props: StartMenuProps) {
                         </div>
                     }
                     {settingMode === "teams" &&
-                        <div className="">
-                            <Table>
+                        <div className="overflow-y-scroll max-h-[300px]">
+                            <Table className="overflow-y-hidden">
                                 <TableCaption>All active teams</TableCaption>
                                 <TableHeader>
                                     <TableRow>
@@ -136,7 +136,7 @@ export default function StartMenu(props: StartMenuProps) {
                                                 <div className="w-6 h-6 rounded-full" style={{ backgroundColor: team.teamColor }}></div>
                                             </TableCell>
                                             <TableCell>
-                                                <Button variant={"destructive"} onClick={() => (props.teamName ? deleteTeam(team.name) : alert("Please select a team first"))}>DELETE</Button>
+                                                <Button variant={"destructive"} onClick={() => (props.teamName ? deleteTeam(team.name) : null)}>DELETE</Button>
                                             </TableCell>
 
                                         </TableRow>

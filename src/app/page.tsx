@@ -34,7 +34,6 @@ export default function Home() {
       const selectedTeam = localStorage.getItem("selectedTeam");
       if (selectedTeam) {
         setTeamName(selectedTeam);
-        console.log("Setting team from local storage to:", selectedTeam);
       }
     }
   }, [teamName]);

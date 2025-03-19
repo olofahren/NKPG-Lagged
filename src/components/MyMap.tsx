@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { MapContainer, Marker, Polygon, Popup, TileLayer } from "react-leaflet";
 import { claimArea } from "../app/utils/firebase";
 import areaGeoData from "@/../public/areas.json";
-
+import { checkCoordinateInAreas } from "@/app/utils/mapFunctions";
+import { toast } from "sonner";
 interface MyMapProps {
     teamName: string;
     areas: any[];
@@ -15,21 +16,27 @@ export default function MyMap(props: MyMapProps) {
     const [location, setLocation] = useState<{ latitude: number, longitude: number } | undefined>(undefined);
 
     useEffect(() => {
-        if ('geolocation' in navigator) {
-            navigator.geolocation.getCurrentPosition(({ coords }) => {
-                const { latitude, longitude } = coords;
-                setLocation({ latitude, longitude });
-            })
-        }
+        const fetchLocation = () => {
+            if ('geolocation' in navigator) {
+                navigator.geolocation.getCurrentPosition(({ coords }) => {
+                    const { latitude, longitude } = coords;
+                    setLocation({ latitude, longitude });
+                });
+            }
+        };
+        fetchLocation(); // Fetch location immediately on mount
+        const intervalId = setInterval(fetchLocation, 10000); // Fetch location every 10 seconds
+        return () => clearInterval(intervalId); // Clear interval on unmount
     }, []);
 
     const handleClaimArea = (areaName: string) => {
-        console.log("Trying to claim area...");
-        if (props.teamName) {
-            console.log(`Claiming area: ${areaName}`);
+        const area = areaGeoData.find((area: { name: string }) => area.name === areaName);
+        if (props.teamName && location && area && checkCoordinateInAreas([location.latitude, location.longitude], [{ ...area, coordinates: area.coordinates as [number, number][] }]).isInside) {
             claimArea(props.teamName, areaName);
         } else {
-            alert("Please select a team first");
+            toast("Failed to claim area", {
+                description: "You are not in the area you are trying to claim.",
+            })
         }
     }
 

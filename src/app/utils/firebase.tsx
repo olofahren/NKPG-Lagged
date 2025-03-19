@@ -171,7 +171,11 @@ async function addTeam(teamName: string, teamColor: string) {
         await push(teamsRef, {
             name: teamName,
             claimedAreas: [],
-            teamColor: teamColor
+            teamColor: teamColor,
+            teamPosition: {
+                latitude: 0,
+                longitude: 0
+            }
         });
 
         console.log(`Successfully added team: ${teamName}`);
@@ -260,4 +264,28 @@ async function getEventTimes(eventName: string) {
     }
 }
 
-export { database, auth, getTeams, addTeam, deleteTeam, claimArea, getAreas, addArea, listenForTeams, listenForAreas, setEventTimes, getEventTimes, getEvents, listenForEvents };
+async function setTeamPosition(teamName: string, latitude: number, longitude: number) {
+    try {
+        const teamsRef = ref(database, "teams");
+        const teamsSnapshot = await get(teamsRef);
+        const teamsData = teamsSnapshot.val();
+        const teamKey = Object.keys(teamsData).find(key => teamsData[key].name === teamName);
+        const teamRef = ref(database, `teams/${teamKey}`);
+
+        await update(teamRef, {
+            teamPosition: {
+                latitude: latitude,
+                longitude: longitude
+            }
+        });
+
+        console.log(`Successfully updated position for team: ${teamName}`);
+
+    }
+    catch (error) {
+        console.error("Error updating team position:", error);
+        throw error;
+    }
+}
+
+export { database, auth, getTeams, addTeam, deleteTeam, claimArea, getAreas, addArea, listenForTeams, listenForAreas, setEventTimes, getEventTimes, getEvents, listenForEvents, setTeamPosition };

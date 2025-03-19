@@ -21,6 +21,9 @@ export default function MyMap(props: MyMapProps) {
                 navigator.geolocation.getCurrentPosition(({ coords }) => {
                     const { latitude, longitude } = coords;
                     setLocation({ latitude, longitude });
+                    toast("Location updated", {
+                        description: `Latitude: ${latitude}, Longitude: ${longitude}`,
+                    });
                 });
             }
         };

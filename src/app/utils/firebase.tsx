@@ -275,12 +275,10 @@ async function setTeamPosition(teamName: string, latitude: number, longitude: nu
         await update(teamRef, {
             teamPosition: {
                 latitude: latitude,
-                longitude: longitude
+                longitude: longitude,
+                lastUpdated: new Date().toISOString()
             }
         });
-
-        console.log(`Successfully updated position for team: ${teamName}`);
-
     }
     catch (error) {
         console.error("Error updating team position:", error);

@@ -29,16 +29,12 @@ export default function MyMap(props: MyMapProps) {
         setTeamPositions(teamPositions);
     }, [props.teams]);
 
-    useEffect(() => {
-        console.log("teams", props.teams);
-        console.log("teamPositions", teamPositions);
-    }, [teamPositions]);
-
     // Fetch location every 10 seconds
     useEffect(() => {
         const fetchLocation = () => {
             if ('geolocation' in navigator) {
                 navigator.geolocation.getCurrentPosition(({ coords }) => {
+                    // const { latitude, longitude } = { latitude: 58.619158, longitude: 16.147411 }
                     const { latitude, longitude } = coords;
                     setLocation({ latitude, longitude });
                     setTeamPosition(props.teamName, latitude, longitude);
@@ -64,7 +60,13 @@ export default function MyMap(props: MyMapProps) {
         }
     }
 
-    const createCustomIcon = (color: string) => {
+    const createCustomIcon = (teamName: string, color: string) => {
+        if (teamName === props.teamName) {
+            return L.divIcon({
+                className: "custom-icon",
+                html: `<div style="background-color: ${color}; width: 24px; height: 24px; border-radius: 50%; border: 2px solid; transform: translate(-12px, -12px); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 10px; color: black;">You</div>`,
+            });
+        }
         return L.divIcon({
             className: "custom-icon",
             html: `<div style="background-color: ${color}; width: 24px; height: 24px; border-radius: 50%; border: 2px solid; transform: translate(-12px, -12px);"></div>`,
@@ -108,25 +110,20 @@ export default function MyMap(props: MyMapProps) {
                     );
                 })}
 
-                {location &&
-                    <Marker position={[location.latitude, location.longitude]}>
-                        <Popup>
-                            Your location
-                        </Popup>
-                    </Marker>
-                }
-
                 {props.teams &&
-                    props.teams.map((team: { name: string, teamPosition: { latitude: number, longitude: number }, teamColor: string }) => {
+                    props.teams.map((team: { name: string, teamPosition: { latitude: number, longitude: number, lastUpdated: Date }, teamColor: string }) => {
                         if (team.teamPosition && team.teamPosition.latitude !== undefined && team.teamPosition.longitude !== undefined) {
                             return (
                                 <Marker
                                     key={team.name}
                                     position={[team.teamPosition.latitude, team.teamPosition.longitude]}
-                                    icon={createCustomIcon(team.teamColor)}
+                                    icon={createCustomIcon(team.name, team.teamColor)}
                                 >
                                     <Popup>
-                                        <p>Team position of:</p> <p className="font-bold">{team.name}</p>
+                                        <p>Team position of:</p>
+                                        <p className="font-bold">{team.name}</p>
+                                        <p>Last updated at {new Date(team.teamPosition.lastUpdated).toLocaleString()}</p>
+
                                     </Popup>
                                 </Marker>
                             );

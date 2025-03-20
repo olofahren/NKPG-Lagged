@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { MapContainer, Marker, Polygon, Popup, TileLayer } from "react-leaflet";
 import L from "leaflet";
 import { claimArea, setTeamPosition } from "../app/utils/firebase";
-import areaGeoData from "@/../public/output.json";
+import areaGeoData from "@/../public/areas.json";
 import { checkCoordinateInAreas } from "@/app/utils/mapFunctions";
 import { toast } from "sonner";
 

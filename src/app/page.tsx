@@ -34,7 +34,6 @@ export default function Home() {
       const selectedTeam = localStorage.getItem("selectedTeam");
       if (selectedTeam) {
         setTeamName(selectedTeam);
-        console.log("Setting team from local storage to:", selectedTeam);
       }
     }
   }, [teamName]);
@@ -74,12 +73,10 @@ export default function Home() {
       <div className="h-1/12 p-3 flex flex-row justify-between items-center">
         <StartMenu teams={teams} setTeams={setTeams} teamName={teamName || ''} setTeamName={setTeamName} events={events} selectedEvent={selectedEvent} setSelectedEvent={setSelectedEvent} />
         <h1 className="text-2xl font-bold">NKPG Lagged</h1>
-      </div>
-      <div className='h-10/12 overflow-hidden'>
-        <Map teamName={teamName || ''} areas={areas} teams={teams} />
-      </div>
-      <div className='h-1/12 p-3 flex justify-center items-center'>
         <p className='text-xl font-bold'>{formatTimeLeft(timeLeft)}</p>
+      </div>
+      <div className='h-11/12 overflow-hidden'>
+        <Map teamName={teamName || ''} areas={areas} teams={teams} />
       </div>
     </div>
   );

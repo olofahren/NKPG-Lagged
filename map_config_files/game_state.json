@@ -1,0 +1,283 @@
+{
+    "teams": {
+        "team1": {
+            "name": "Team 1",
+            "teamColor": "#FF0000",
+            "teamPosition": {
+                "latitude": 0,
+                "longitude": 0
+            }
+        },
+        "team2": {
+            "name": "Team 2",
+            "teamColor": "#fcba03",
+            "teamPosition": {
+                "latitude": 0,
+                "longitude": 0
+            }
+        },
+        "team3": {
+            "name": "Team 3",
+            "teamColor": "#0b03fc",
+            "points": 0,
+            "teamPosition": {
+                "latitude": 0,
+                "longitude": 0
+            }
+        }
+    },
+    "areas": {
+        "area3": {
+            "name": "Björkalund",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area4": {
+            "name": "Navestad",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area6": {
+            "name": "Brånnestad",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area7": {
+            "name": "Vrinnevi",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area8": {
+            "name": "Vilbergen",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area9": {
+            "name": "Skarphagen",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area10": {
+            "name": "Hageby",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area11": {
+            "name": "Klingsberg",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area12": {
+            "name": "Rambodal",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area14": {
+            "name": "Klockaretorpet",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area15": {
+            "name": "Smedby",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area16": {
+            "name": "Ektorp",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area17": {
+            "name": "Ljura",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area18": {
+            "name": "Söderstaden",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area19": {
+            "name": "Såpkullen",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area20": {
+            "name": "Ljunga",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area21": {
+            "name": "Kneippen",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area22": {
+            "name": "Berget",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area23": {
+            "name": "Oxelbergen",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area24": {
+            "name": "Gamla staden",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area25": {
+            "name": "Östantill",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area26": {
+            "name": "Nordantill",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area27": {
+            "name": "Saltängen",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area28": {
+            "name": "Himmelstalund",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area29": {
+            "name": "Marielund",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area30": {
+            "name": "Risängen",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area31": {
+            "name": "Haga",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area32": {
+            "name": "Lagerlunda",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area33": {
+            "name": "Butängen",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area34": {
+            "name": "Sylten",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area36": {
+            "name": "Pryssgården",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area37": {
+            "name": "Enebymo",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area38": {
+            "name": "Slottshagen",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area39": {
+            "name": "Lindö",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area40": {
+            "name": "Ingelsta",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area41": {
+            "name": "Bråvalla",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area42": {
+            "name": "Herstadberg",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area43": {
+            "name": "Händelö",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area45": {
+            "name": "Jursla",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        },
+        "area49": {
+            "name": "Åby",
+            "status": "unclaimed",
+            "claimedBy": "",
+            "points": 1
+        }
+    },
+    "events": {
+        "Event 1": {
+            "name": "Event 1",
+            "startTime": "2025-03-01T12:00:00Z",
+            "endTime": "2025-03-22T14:00:00Z"
+        },
+        "Event 2": {
+            "name": "Event 2",
+            "startTime": "2021-03-01T12:00:00Z",
+            "endTime": "2021-03-22T14:00:00Z"
+        }
+    }
+}

@@ -172,6 +172,7 @@ async function addTeam(teamName: string, teamColor: string) {
             name: teamName,
             claimedAreas: [],
             teamColor: teamColor,
+            points: 0,
             teamPosition: {
                 latitude: 0,
                 longitude: 0
@@ -207,6 +208,8 @@ async function deleteTeam(teamName: string) {
 
 async function claimArea(teamName: string, area: string) {
     try {
+
+        //claim the area
         const areasRef = ref(database, "areas");
         const areasSnapshot = await get(areasRef);
         const areasData = areasSnapshot.val();
@@ -217,6 +220,44 @@ async function claimArea(teamName: string, area: string) {
             status: "claimed",
             claimedBy: teamName
         });
+
+        //add points to the team
+        const teamsRef = ref(database, "teams");
+        const teamsSnapshot = await get(teamsRef);
+        const teamsData = teamsSnapshot.val();
+        const teamKey = Object.keys(teamsData).find(key => teamsData[key].name === teamName);
+        const teamRef = ref(database, `teams/${teamKey}`);
+        if (!teamKey) {
+            throw new Error(`Team with name ${teamName} not found`);
+        }
+        const teamData = teamsData[teamKey];
+        const teamPoints = teamData.points ? teamData.points : 0;
+        if (!areaKey) {
+            throw new Error(`Area with name ${area} not found`);
+        }
+        const areaData = areasData[areaKey];
+        const areaPoints = areaData.points ? areaData.points : 0;
+        const newPoints = teamPoints + areaPoints;
+
+        await update(teamRef, {
+            points: newPoints
+        });
+
+        //remove points from the team that previously claimed the area if one such exists
+        const previousTeam = areaData.claimedBy;
+        if (previousTeam) {
+            const previousTeamKey = Object.keys(teamsData).find(key => teamsData[key].name === previousTeam);
+            const previousTeamRef = ref(database, `teams/${previousTeamKey}`);
+            if (previousTeamKey) {
+                const previousTeamData = teamsData[previousTeamKey];
+                const previousTeamPoints = previousTeamData.points ? previousTeamData.points : 0;
+                const newPreviousTeamPoints = previousTeamPoints - areaPoints;
+
+                await update(previousTeamRef, {
+                    points: newPreviousTeamPoints
+                });
+            }
+        }
 
         console.log(`Successfully claimed area: ${area}`);
 

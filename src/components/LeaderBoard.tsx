@@ -37,7 +37,7 @@ export default function LeaderBoard(props: LeaderBoardProps) {
     }, [props.teams]);
 
     return (
-        <div className={` ${collapsed ? 'w-1/7' : 'w-3/5'} bg-white ${collapsed ? 'p-0' : 'p-4'} ${collapsed ? 'rounded-full' : 'rounded-lg'} shadow-lg absolute bottom-0 left-0 mb-2 ml-2 z-10 ${collapsed ? 'h-1/15' : 'h-1/4'} overflow-hidden`}>
+        <div className={` ${collapsed ? 'w-1/7' : 'w-2/5'} bg-white ${collapsed ? 'p-0' : 'p-4'} ${collapsed ? 'rounded-full' : 'rounded-lg'} ${!collapsed ? 'max-w-50' : ''} shadow-lg absolute bottom-0 left-0 mb-2 ml-2 z-10 ${collapsed ? 'h-1/15' : 'h-1/4'} overflow-hidden`}>
             <div className={`flex ${collapsed ? 'justify-center' : 'justify-between'} items-center ${collapsed ? 'h-full' : ''}`}>
                 {!collapsed && <h3>Leaderboard</h3>}
                 <Button variant={"ghost"} onClick={() => setCollapsed(!collapsed)}>

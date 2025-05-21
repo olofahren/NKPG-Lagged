@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import {
     Dialog,
     DialogContent,
@@ -98,7 +98,21 @@ export default function StartMenu(props: StartMenuProps) {
 
     const handleSaveEventTimes = () => {
         setEventTimes(props.selectedEvent, eventStartDate?.toISOString() || "", eventEndDate?.toISOString() || "");
+        console.log("Set event start date as ", eventStartDate?.toISOString());
+        console.log("Set event end date as ", eventEndDate?.toISOString());
         toast.success("Event times saved");
+    }
+
+    // Converts a Date to a local datetime string for input[type="datetime-local"]
+    function toLocalDatetimeString(date?: Date) {
+        if (!date) return '';
+        const pad = (n: number) => n.toString().padStart(2, '0');
+        return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    }
+
+    // Converts a local datetime string to a Date object (local time)
+    function fromLocalDatetimeString(value: string) {
+        return value ? new Date(value) : undefined;
     }
 
     return (
@@ -196,13 +210,19 @@ export default function StartMenu(props: StartMenuProps) {
                                 <div className="flex flex-row">
                                     <div>
                                         <label className="text-xs">Start time:</label>
-                                        <DateTimePicker24h date={eventStartDate} setDate={setEventStartDate} />
+                                        <Input
+                                            type="datetime-local" value={toLocalDatetimeString(eventStartDate)}
+                                            onChange={(e) => setEventStartDate(fromLocalDatetimeString(e.target.value))}
+                                        />
                                     </div>
                                 </div>
                                 <div className="flex flex-row">
                                     <div>
                                         <label className="text-xs">End time:</label>
-                                        <DateTimePicker24h date={eventEndDate} setDate={setEventEndDate} />
+                                        <Input
+                                            type="datetime-local" value={toLocalDatetimeString(eventEndDate)}
+                                            onChange={(e) => setEventEndDate(fromLocalDatetimeString(e.target.value))}
+                                        />
                                     </div>
                                 </div>
                                 <Button className="w-full mt-4" onClick={handleSaveEventTimes}>Save</Button>

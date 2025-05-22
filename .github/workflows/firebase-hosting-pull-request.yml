@@ -19,8 +19,11 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm install --legacy-peer-deps
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
       - name: Set Functions Artifact Cleanup Policy
-        run: npx firebase functions:artifacts:setpolicy --force
+        run: firebase functions:artifacts:setpolicy --force
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_NKPG_LAGGED }}
           FIREBASE_PROJECT_ID: nkpg-lagged

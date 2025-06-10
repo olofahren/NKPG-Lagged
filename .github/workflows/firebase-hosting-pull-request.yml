@@ -26,7 +26,7 @@ jobs:
       - name: Set Functions Artifact Cleanup Policy
         run: firebase functions:artifacts:setpolicy --force --project nkpg-lagged
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${HOME}/gcp-key.json
+          GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcp-key.json
       - name: Build
         run: npm run build
         env:

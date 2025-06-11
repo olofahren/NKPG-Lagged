@@ -10,31 +10,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
+          
       - name: Install dependencies
         run: npm install --legacy-peer-deps
+        
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
+        
       - name: Write service account to file
-        run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_NKPG_LAGGED }}' > "${HOME}/gcp-key.json"
+        run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_NKPG_LAGGED }}' > /tmp/gcp-key.json
+        
       - name: Verify Service Account File
-        run: cat "${HOME}/gcp-key.json" | jq .
-      - name: Authenticate Firebase CLI
-        run: firebase use --add --project nkpg-lagged
+        run: cat /tmp/gcp-key.json | jq .
+        
+      - name: Authenticate with Firebase
+        run: |
+          export GOOGLE_APPLICATION_CREDENTIALS="/tmp/gcp-key.json"
+          firebase use nkpg-lagged --token "$(gcloud auth application-default print-access-token)" || firebase use nkpg-lagged
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcp-key.json
+          GOOGLE_APPLICATION_CREDENTIALS: /tmp/gcp-key.json
+          
       - name: Set Functions Artifact Cleanup Policy
         run: firebase functions:artifacts:setpolicy --force --project nkpg-lagged
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcp-key.json
-      - name: Set Functions Artifact Cleanup Policy
-        run: firebase functions:artifacts:setpolicy --force --project nkpg-lagged
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcp-key.json
+          GOOGLE_APPLICATION_CREDENTIALS: /tmp/gcp-key.json
+          
       - name: Build
         run: npm run build
         env:
@@ -45,6 +51,7 @@ jobs:
           NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
           NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
           NEXT_PUBLIC_FIREBASE_DATABASE_URL: ${{ secrets.NEXT_PUBLIC_FIREBASE_DATABASE_URL }}
+          
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}

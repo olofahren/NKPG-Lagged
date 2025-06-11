@@ -24,7 +24,7 @@ jobs:
       - name: Verify Service Account File
         run: cat "${HOME}/gcp-key.json" | jq .
       - name: Authenticate Firebase CLI
-        run: firebase auth:login --token "$(cat $HOME/gcp-key.json)"
+        run: firebase use --add --project nkpg-lagged
         env:
           GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcp-key.json
       - name: Set Functions Artifact Cleanup Policy

@@ -23,7 +23,14 @@ jobs:
         run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_NKPG_LAGGED }}' > "${HOME}/gcp-key.json"
       - name: Verify Service Account File
         run: cat "${HOME}/gcp-key.json" | jq .
-        shell: bash
+      - name: Authenticate Firebase CLI
+        run: firebase auth:login --token "$(cat $HOME/gcp-key.json)"
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcp-key.json
+      - name: Set Functions Artifact Cleanup Policy
+        run: firebase functions:artifacts:setpolicy --force --project nkpg-lagged
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcp-key.json
       - name: Set Functions Artifact Cleanup Policy
         run: firebase functions:artifacts:setpolicy --force --project nkpg-lagged
         env:

@@ -7,8 +7,12 @@ import LeaderBoard from '@/components/LeaderBoard';
 
 export default function Home() {
   const [areas, setAreas] = useState<any[]>([]);
-  const [teamName, setTeamName] = useState<string>();
-  const [teams, setTeams] = useState<any[]>([]);
+  const [teamName, setTeamName] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("selectedTeam") || "";
+    }
+    return "";
+  }); const [teams, setTeams] = useState<any[]>([]);
   const [events, setEvents] = useState<any[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<string>(events[0]?.name);
   const [timeLeft, setTimeLeft] = useState<number>(0);
@@ -30,14 +34,14 @@ export default function Home() {
     listenForEvents(setEvents);
   }, []);
 
-  useEffect(() => {
-    if (teamName === undefined) {
-      const selectedTeam = localStorage.getItem("selectedTeam");
-      if (selectedTeam) {
-        setTeamName(selectedTeam);
-      }
-    }
-  }, [teamName]);
+  // useEffect(() => {
+  //   if (teamName === undefined) {
+  //     const selectedTeam = localStorage.getItem("selectedTeam");
+  //     if (selectedTeam) {
+  //       setTeamName(selectedTeam);
+  //     }
+  //   }
+  // }, [teamName]);
 
   useEffect(() => {
     const interval = setInterval(() => {

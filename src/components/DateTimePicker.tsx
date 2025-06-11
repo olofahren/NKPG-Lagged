@@ -36,7 +36,6 @@ export default function DateTimePicker24h({ date, setDate }: DateTimePicker24hPr
     }, [date, setDate]);
 
     React.useEffect(() => {
-        console.log("Date changed:", date);
         handleDateSelect(date);
     }, [date, handleDateSelect]);
 
@@ -88,7 +87,6 @@ export default function DateTimePicker24h({ date, setDate }: DateTimePicker24hPr
                         mode="single"
                         selected={date}
                         onSelect={handleDateSelect}
-                        initialFocus
                     />
                     <div className="flex flex-col sm:flex-row sm:h-[300px] divide-y sm:divide-y-0 sm:divide-x">
                         <ScrollArea className="w-64 sm:w-auto">

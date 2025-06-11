@@ -21,6 +21,9 @@ jobs:
         run: npm install -g firebase-tools
       - name: Write service account to file
         run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_NKPG_LAGGED }}' > "${HOME}/gcp-key.json"
+      - name: Verify Service Account File
+        run: cat "${HOME}/gcp-key.json" | jq .
+        shell: bash
       - name: Set Functions Artifact Cleanup Policy
         run: firebase functions:artifacts:setpolicy --force --project nkpg-lagged
         env:
